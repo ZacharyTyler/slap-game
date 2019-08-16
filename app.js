@@ -10,17 +10,16 @@ let inventory = {
   tempItem: { name: 'Temp Item', modifier: 2, description: 'This is item' }
 }
 
-function giveItem() {
-  return yourEnemy.items.push(inventory.tempItem.modifier)
+let attacks = {
+  slap: 1,
+  punch: 5,
+  kick: 10,
 }
 
-function giveFriend() {
-  return yourEnemy.items.push(inventory.inviteAFriend.modifier)
-}
-function giveHate() {
-  return yourEnemy.items.push(inventory.channelHate.modifier)
-}
 
+function giveItems(items) {
+  return yourEnemy.items.push(inventory[items].modifier)
+}
 
 function addMods() {
   let modDamage = 0
@@ -30,22 +29,8 @@ function addMods() {
   return modDamage
 }
 
-function slap() {
-  yourEnemy.health -= 1 + addMods();
-  yourEnemy.hits += 1
-  zero()
-  draw()
-}
-
-function punch() {
-  yourEnemy.health -= 5 + addMods();
-  yourEnemy.hits += 1
-  zero()
-  draw()
-}
-
-function kick() {
-  yourEnemy.health -= 10 + addMods();
+function attack(attackType) {
+  yourEnemy.health -= attacks[attackType] + addMods();
   yourEnemy.hits += 1
   zero()
   draw()
