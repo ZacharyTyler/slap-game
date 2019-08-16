@@ -14,7 +14,7 @@
 
 <body class=text-center>
   <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
       <div class="col-12">
         <h1>Slap Enemy</h1>
         <h3 id="health"></h3>
@@ -27,6 +27,15 @@
         <button onclick="slap()">Slap</button>
         <button onclick="punch()">Punch</button>
         <button onclick="kick()">Kick</button>
+      </div>
+      <div id="items" class="col-12"><br>
+        <button onclick="giveItem()">Use an item</button>
+        <button onclick="giveFriend()">Call a friend</button>
+        <button onclick="giveHate()">Channel Hatred</button>
+      </div>
+      <div class="col-12">
+        <br>
+        <button onclick="reset()">reset</button>
       </div>
     </div>
   </div>
