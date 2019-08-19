@@ -4,6 +4,7 @@ let characters = [{
   health: 100,
   hits: 0,
   items: [0],
+  image: 0,
   attacks: {
     slap: 1,
     punch: 5,
@@ -32,10 +33,12 @@ let characters = [{
   health: 100,
   hits: 0,
   items: [0],
+  image: 0,
   attacks: {
     slap: 1,
     punch: 5,
     kick: 10,
+
   },
   inventory: {
     channelHate: {
@@ -56,7 +59,6 @@ let characters = [{
   }
 },]
 
-
 function addEnemy() {
   characters.push(
     {
@@ -64,6 +66,7 @@ function addEnemy() {
       health: 100,
       hits: 0,
       items: [0],
+      image: 0,
       attacks: {
         slap: 1,
         punch: 5,
@@ -91,34 +94,50 @@ function addEnemy() {
   drawCharacters()
 }
 
+let picture = "https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-960x960.png"
 
+function promptImage() {
+  picture = prompt("Please enter a photo URL", "URL");
+}
 
+function chooseImage(index) {
+
+  if (characters[index].image == 0) {
+    promptImage()
+    if (picture.includes("http") == true) {
+      // @ts-ignore
+      return characters[index].image = picture
+    } else {
+      // @ts-ignore
+      return characters[index].image = "https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-960x960.png"
+    }
+  } else { return characters[index].image }
+}
 
 
 function drawCharacters() {
-  // abillities()
-
   let charactersElement = document.querySelector("#char")
   let template = ""
-
-
   for (let i = 0; i < characters.length; i++) {
     let people = characters[i];
     template += `<div class="col-6">
         <h1>${people.name}</h1>
-        <h3>"Health:${people.health}"</h3>
-        <h3>"Hits: ${people.hits}"</h3>
-        <img src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-960x960.png"
+        <h3>Health:${people.health}</h3>
+        <h3>Hits: ${people.hits}</h3>
+        <div class="row">
+        <div class="col-12 col-height d-flex justify-content-center align-items-center">
+        <img src= ${chooseImage(i)}
           alt="Slap Me" class="slap-image">
+          </div></div>
         <h3>Attack</h3>
-        <button class="btn btn-success" onclick="attack(${i}, 'slap')">Slap</button>
-        <button class="btn btn-warning" onclick="attack(${i}, 'punch')">Punch</button>
-        <button class="btn btn-danger" onclick="attack(${i}, 'kick')">Kick</button>
+        <button class="btn btn-success attackbtn-size" onclick="attack(${i}, 'slap')">Slap</button>
+        <button class="btn btn-warning attackbtn-size" onclick="attack(${i}, 'punch')">Punch</button>
+        <button class="btn btn-danger attackbtn-size" onclick="attack(${i}, 'kick')">Kick</button>
       <div id="items" class="col-12"><br>
         <h3>Abillities</h3>
-        <button class="btn btn-light" onclick="giveItems(${i}, 'liftWeights')">Lift Weights</button>
-        <button class="btn btn-secondary" onclick="giveItems(${i}, 'inviteAFriend')">Phone a Friend</button>
-        <button class="btn btn-dark" onclick="giveItems(${i}, 'channelHate')">Channel Hatred</button>
+        <button class="btn btn-light abillitybtn-size" onclick="giveItems(${i}, 'liftWeights')">Lift Weights</button>
+        <button class="btn btn-secondary abillitybtn-size" onclick="giveItems(${i}, 'inviteAFriend')">Phone a Friend</button>
+        <button class="btn btn-dark abillitybtn-size" onclick="giveItems(${i}, 'channelHate')">Channel Hatred</button>
         </div>
         <div class="col-12">
         <br>
@@ -131,6 +150,7 @@ function drawCharacters() {
 
   charactersElement.innerHTML = template
 }
+
 function abillities(index) {
   let people = characters[index];
   if (people.items[0] == 2) {
@@ -142,9 +162,8 @@ function abillities(index) {
   } else {
     return "None"
   }
-
-
 }
+
 function attack(index, attackType) {
   characters[index].health -= characters[index].attacks[attackType] + addMods(index);
   characters[index].hits += 1
@@ -177,7 +196,6 @@ function reset() {
   }
   drawCharacters()
 }
-
 
 function zero() {
   for (let i = 0; i < characters.length; i++) {
