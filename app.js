@@ -1,58 +1,201 @@
-let yourEnemy = {
+
+let characters = [{
+  name: "Player",
   health: 100,
   hits: 0,
-  items: []
+  items: [0],
+  attacks: {
+    slap: 1,
+    punch: 5,
+    kick: 10,
+  },
+  inventory: {
+    channelHate: {
+      name: 'Channel Hatred',
+      modifier: 10,
+      description: 'Channel your inner hatred'
+    },
+    inviteAFriend: {
+      name: 'Phone a Friend',
+      modifier: 5,
+      description: 'Phone a friend'
+    },
+    liftWeights: {
+      name: 'Lift Weights',
+      modifier: 2,
+      description: 'Pump iron'
+    }
+  }
+},
+{
+  name: "Enemy",
+  health: 100,
+  hits: 0,
+  items: [0],
+  attacks: {
+    slap: 1,
+    punch: 5,
+    kick: 10,
+  },
+  inventory: {
+    channelHate: {
+      name: 'Channel Hatred',
+      modifier: 10,
+      description: 'Channel your inner hatred'
+    },
+    inviteAFriend: {
+      name: 'Phone a Friend',
+      modifier: 5,
+      description: 'Phone a friend'
+    },
+    liftWeights: {
+      name: 'Lift Weights',
+      modifier: 2,
+      description: 'Pump iron'
+    }
+  }
+},]
+
+
+function addEnemy() {
+  characters.push(
+    {
+      name: "Enemy",
+      health: 100,
+      hits: 0,
+      items: [0],
+      attacks: {
+        slap: 1,
+        punch: 5,
+        kick: 10,
+      },
+      inventory: {
+        channelHate: {
+          name: 'Channel Hatred',
+          modifier: 10,
+          description: 'Channel your inner hatred'
+        },
+        inviteAFriend: {
+          name: 'Phone a Friend',
+          modifier: 5,
+          description: 'Phone a friend'
+        },
+        liftWeights: {
+          name: 'Lift Weights',
+          modifier: 2,
+          description: 'Pump iron'
+        }
+      }
+    }
+  )
+  drawCharacters()
 }
 
-let inventory = {
-  channelHate: { name: 'Channel Hate', modifier: 10, description: 'Channel your inner hatred' },
-  inviteAFriend: { name: 'Friend', modifier: 5, description: 'Phone a friend' },
-  tempItem: { name: 'Temp Item', modifier: 2, description: 'This is item' }
+
+
+
+
+function drawCharacters() {
+  // abillities()
+
+  let charactersElement = document.querySelector("#char")
+  let template = ""
+
+
+  for (let i = 0; i < characters.length; i++) {
+    let people = characters[i];
+    template += `<div class="col-6">
+        <h1>${people.name}</h1>
+        <h3>"Health:${people.health}"</h3>
+        <h3>"Hits: ${people.hits}"</h3>
+        <img src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-960x960.png"
+          alt="Slap Me" class="slap-image">
+        <h3>Attack</h3>
+        <button class="btn btn-success" onclick="attack(${i}, 'slap')">Slap</button>
+        <button class="btn btn-warning" onclick="attack(${i}, 'punch')">Punch</button>
+        <button class="btn btn-danger" onclick="attack(${i}, 'kick')">Kick</button>
+      <div id="items" class="col-12"><br>
+        <h3>Abillities</h3>
+        <button class="btn btn-light" onclick="giveItems(${i}, 'liftWeights')">Lift Weights</button>
+        <button class="btn btn-secondary" onclick="giveItems(${i}, 'inviteAFriend')">Phone a Friend</button>
+        <button class="btn btn-dark" onclick="giveItems(${i}, 'channelHate')">Channel Hatred</button>
+        </div>
+        <div class="col-12">
+        <br>
+  <h4>Active Abillity:
+  ${abillities(i)}
+   </h4>
+</div>
+        </div>`
+  }
+
+  charactersElement.innerHTML = template
+}
+function abillities(index) {
+  let people = characters[index];
+  if (people.items[0] == 2) {
+    return people.inventory.liftWeights.name
+  } else if (people.items[0] == 5) {
+    return people.inventory.inviteAFriend.name
+  } else if (people.items[0] == 10) {
+    return people.inventory.channelHate.name
+  } else {
+    return "None"
+  }
+
+
+}
+function attack(index, attackType) {
+  characters[index].health -= characters[index].attacks[attackType] + addMods(index);
+  characters[index].hits += 1
+  zero()
+  drawCharacters()
 }
 
-let attacks = {
-  slap: 1,
-  punch: 5,
-  kick: 10,
+function giveItems(index, items) {
+  characters[index].items.pop()
+  characters[index].items.push(characters[index].inventory[items].modifier)
+  drawCharacters()
 }
 
-
-function giveItems(items) {
-  return yourEnemy.items.push(inventory[items].modifier)
-}
-
-function addMods() {
+function addMods(x) {
   let modDamage = 0
-  for (let i = 0; i < yourEnemy.items.length; i++) {
-    modDamage += yourEnemy.items[i]
+  for (let i = 0; i < characters[x].items.length; i++) {
+    modDamage += characters[x].items[i]
   }
   return modDamage
 }
 
-function attack(attackType) {
-  yourEnemy.health -= attacks[attackType] + addMods();
-  yourEnemy.hits += 1
-  zero()
-  draw()
+function reset() {
+  for (let i = characters.length; i > 2; i--) {
+    characters.pop()
+  }
+  for (let i = 0; i < characters.length; i++) {
+    characters[i].health = 100
+    characters[i].hits = 0
+    characters[i].items = []
+  }
+  drawCharacters()
 }
 
-function reset() {
-  yourEnemy.health = 100
-  yourEnemy.hits = 0
-  draw()
-}
 
 function zero() {
-  if (yourEnemy.health < 0) {
-    return yourEnemy.health = 0
+  for (let i = 0; i < characters.length; i++) {
+    if (characters[i].health < 0) {
+      return characters[i].health = 0
+    }
   }
 }
 
-function draw() {
-  let healthElement = document.querySelector("#health")
-  let hitsElement = document.querySelector("#hits")
-  healthElement.textContent = `Health: ${yourEnemy.health}`
-  hitsElement.textContent = `Hits: ${yourEnemy.hits}`
-}
 
-draw()
+
+
+
+
+drawCharacters()
+
+
+
+
+                    // accessing values off of an input
+// move image Html into JavaScript text

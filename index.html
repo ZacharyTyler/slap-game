@@ -14,28 +14,15 @@
 
 <body class=text-center>
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12">
-        <h1>Slap Enemy</h1>
-        <h3 id="health"></h3>
-        <h3 id="targetName"></h3>
-        <h3 id="hits"></h3>
+    <div id="char" class="row justify-content-center">
 
-        <img src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673-960x960.png"
-          alt="Slap Me" class="slap-image">
+    </div>
 
-        <button onclick="attack('slap')">Slap</button>
-        <button onclick="attack('punch')">Punch</button>
-        <button onclick="attack('kick')">Kick</button>
-      </div>
-      <div id="items" class="col-12"><br>
-        <button onclick="giveItems('tempItem')">Use an item</button>
-        <button onclick="giveItems('inviteAFriend')">Phone a friend</button>
-        <button onclick="giveItems('channelHate')">Channel Hatred</button>
-      </div>
+    <div class="row">
       <div class="col-12">
         <br>
-        <button onclick="reset()">reset</button>
+        <button class="btn btn-primary" onclick="reset()">reset</button>
+        <button class="btn btn-info" onclick="addEnemy()">Add Enemy</button>
       </div>
     </div>
   </div>
